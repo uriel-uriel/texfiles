@@ -1,0 +1,55 @@
+% Table of Contents - List of Tables/Figures/Listings and Acronyms
+
+\refstepcounter{dummy}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+
+\pdfbookmark[1]{\contentsname}{tableofcontents}
+\tableofcontents
+\clearpage
+
+%-------------------------------------------------------------------------------
+%       List of Figures
+%-------------------------------------------------------------------------------
+
+\refstepcounter{dummy}
+\renewcommand*{\listfigurename}{Lista de figuras}
+\addcontentsline{toc}{chapter}{\protect\numberline{}Lista de figuras}% toc entry
+\listoffigures
+\clearpage
+
+%-------------------------------------------------------------------------------
+%       List of Tables
+%-------------------------------------------------------------------------------
+
+\refstepcounter{dummy}
+\renewcommand*{\listtablename}{Lista de tablas}
+\addcontentsline{toc}{chapter}{\protect\numberline{}Lista de tablas}% toc entry
+\listoftables
+\clearpage
+
+%-------------------------------------------------------------------------------
+%       List of Definitions
+%-------------------------------------------------------------------------------
+
+\refstepcounter{dummy}
+\renewcommand{\listtheoremname}{Lista de definiciones}
+\addcontentsline{toc}{chapter}{\protect\numberline{}\listtheoremname}
+\listoftheorems[ignoreall,show={definition},numwidth={3em}]
+\clearpage
+
+%-------------------------------------------------------------------------------
+%       Acronyms
+%-------------------------------------------------------------------------------
+
+\refstepcounter{dummy}
+\printglossary[
+        toctitle={\protect\numberline{}Lista de acrónimos},
+        title=Lista de acrónimos,
+        type=\acronymtype
+]
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:

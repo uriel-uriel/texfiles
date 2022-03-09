@@ -1,0 +1,192 @@
+%-------------------------------------------------------------------------------
+%       Document class definition
+%-------------------------------------------------------------------------------
+\documentclass[
+    % twoside,
+    % openright, % enable for prod
+    oneside,
+    11pt,
+    % draft
+]{book}%
+
+% **************************************************
+% Information and Commands for Reuse
+% **************************************************
+\newcommand{\thesisTitle}{{Titulo}}
+\newcommand{\thesisName}{uriel ochoa}
+\newcommand{\thesisTutor}{adri}
+\newcommand{\thesisSubject}{Ciencias de la Computaci\'on}
+
+%\newcommand{\thesisFirstReviewer}{Jane Doe}
+%\newcommand{\thesisFirstReviewerUniversity}{\protect{Clean Thesis Style University}}
+%\newcommand{\thesisFirstReviewerDepartment}{Department of Clean Thesis Style}
+%
+%\newcommand{\thesisSecondReviewer}{John Doe}
+%\newcommand{\thesisSecondReviewerUniversity}{\protect{Clean Thesis Style University}}
+%\newcommand{\thesisSecondReviewerDepartment}{Department of Clean Thesis Style}
+%
+%\newcommand{\thesisFirstSupervisor}{Jane Doe}
+%\newcommand{\thesisSecondSupervisor}{John Smith}
+
+% **************************************************
+% Load and Configure Packages
+% **************************************************
+\usepackage{lineno}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,mexico]{babel}
+
+\usepackage[
+    figuresep=endash,
+    colorize=reduced,
+    colortheme=grayscale
+]{cleanthesis}
+
+% --------------------------
+% Custom comands
+% --------------------------
+\renewcommand*{\bibname}{Bibliografía}
+%\bibliography{bibliography}
+
+\renewcommand{\labelitemi}{$\bullet$}
+
+\hypersetup{
+    pdftitle={\thesisTitle},
+    pdfsubject={\thesisSubject},
+    pdfauthor={\thesisName},
+    plainpages=false,
+    colorlinks=false,
+    pdfborder={0 0 0},
+    breaklinks=true,
+    bookmarksnumbered=true,
+    bookmarksopen=true
+}
+
+\input{acronyms}
+\makeglossaries
+\def\appendixautorefname{Apéndice}
+
+%%% TIKZ and plots
+\usepackage{tikz}
+\usetikzlibrary{
+arrows.meta,
+babel,
+backgrounds,
+calc,
+graphs,
+graphdrawing,
+matrix,
+positioning,
+quotes,
+shapes
+}
+\usegdlibrary {circular}
+
+\usepackage[shellescape,latex]{gmp}
+\usempxpackage[utf8]{inputenc}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.16}
+
+%%% Colors
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{250,250,250}
+\definecolor{brick}{HTML}{B22222}
+
+%%% Tables
+\usepackage{multirow}
+\usepackage{float}
+%\usepackage{rotating}
+
+\usepackage{pdflscape}
+\usepackage{longtable}
+
+%%% Listings
+\usepackage{listings}
+
+\lstset{
+  %style=,
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{shadecolor},
+  % morekeywords={fn},
+  keywordstyle=\color{brick}
+}
+
+%%% Labels on description
+\makeatletter
+\def\namedlabel#1#2{\begingroup
+    #2%
+    \def\@currentlabel{#2}%
+    \phantomsection\label{#1}\endgroup
+}
+\makeatother
+
+%%% Bib enumerated
+\defbibenvironment{bibliography}
+{\enumerate{}
+{\setlength{\leftmargin}{\bibhang}%
+\setlength{\itemindent}{-\leftmargin}%
+\setlength{\itemsep}{\bibitemsep}%
+\setlength{\parsep}{\bibparsep}}}
+{\endenumerate}
+{\item}
+
+
+\raggedbottom
+\begin{document}
+
+\linenumbers
+\selectlanguage{spanish}
+
+%-------------------------------------------------------------------------------
+%       Front matter
+%-------------------------------------------------------------------------------
+\pagenumbering{roman}
+\pagestyle{empty}
+
+\include{front_back_matter/titlepage}
+\restoregeometry
+\cleardoublepage
+
+\include{front_back_matter/jurado}
+\cleardoublepage
+
+\include{front_back_matter/dedication}
+\cleardoublepage
+
+\include{front_back_matter/acknowledgments}
+\cleardoublepage
+
+\pagestyle{plain}
+\include{front_back_matter/contents}
+\cleardoublepage
+
+%-------------------------------------------------------------------------------
+%       THESIS CONTENT - CHAPTERS
+%-------------------------------------------------------------------------------
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\pagestyle{maincontentstyle}
+
+\include{content/introduction}
+\include{content/definitions}
+
+
+\cleardoublepage
+
+%-------------------------------------------------------------------------------
+%       THESIS CONTENT - APPENDICES
+%-------------------------------------------------------------------------------
+
+% \include{content/appendix}
+
+%-------------------------------------------------------------------------------
+%       Back matters
+%-------------------------------------------------------------------------------
+\pagestyle{plain}
+\input{front_back_matter/bibliography}
+\cleardoublepage
+
+%\input{content/colophon}
+%\cleardoublepage
+
+\end{document}

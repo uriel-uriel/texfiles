@@ -1,0 +1,238 @@
+\chapter{Conceptos Fundamentales} 
+
+\section{Gr\'aficas}
+
+Esta secci\'on y la siguiente (\ref{section:arboles}) fueron basadas en \citetitle{open}\cite{open}
+
+\begin{definition}[Gr\'afica]
+Una \textbf{gr\'afica} es un par ordenado $G=(V, E)$ que consiste de un conjunto no vac\'io $V$ (llamado v\'ertices) y un conjunto $E$ (llamado aristas) formado por duplas de elementos de $V$.\ref{fig:graph}
+\end{definition}
+
+\begin{figure}
+\centering
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    %\draw[help lines] (0,0) grid (4,-2);
+    \node (h) at (2,-2) {h};
+    \graph {
+      a -- {
+        b -- c,
+        d -- e -- f -- g
+      };
+      d -- (h) -- f;
+      b -- d;
+      c -- e;
+    };
+  \end{tikzpicture}
+  \caption{Una gr\'afica conexa $G$.}\label{fig:graph}
+\end{figure}
+
+\begin{definition}[Adyacencia]
+La \textbf{adyacencia} se define de forma distinta para v\'ertices que para aristas. Dos v\'ertices son adyacentes si estan conectados por una arista. Dos aristas son adyacentes si comparten un v\'ertice.
+\end{definition}
+
+\begin{definition}[Recorrido]
+Un \textbf{recorrido} es una secuencia de v\'ertices tal que, v\'ertices consecutivos en dicha secuencia son adyacentes en la gr\'afica.
+\end{definition}
+
+\begin{definition}[Camino]
+Un \textbf{camino} es un recorrido que no repite v\'ertices (o aristas) excepto, tal vez, el primero y el \'ultimo. Si un camino empieza y termina en el mismo v\'ertice, se llama \textbf{ciclo}.
+\end{definition}
+
+\begin{figure}
+\centering
+  \begin{subfigure}{0.4\textwidth}
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    %\draw[help lines] (0,0) grid (4,-2);
+    \node[fill=red!20] (h) at (2,-2) {h};
+    \graph {
+      a -- {
+        b[fill=red!20] -- c,
+        d[fill=red!20] --[red, thick] e[fill=red!20] --[red, thick] f[fill=red!20] -- g
+      };
+      d -- (h) --[red, thick] f;
+      b[fill=red!20] --[red, thick] d;
+      c -- e;
+    };
+  \end{tikzpicture}
+  \caption{Un camino (en rojo) en $G$.}\label{fig:graph}
+  \end{subfigure}
+  \begin{subfigure}{0.4\textwidth}
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    %\draw[help lines] (0,0) grid (4,-2);
+    \node (h) at (2,-2) {h};
+    \graph {
+      a -- {
+        b[fill=green!20] --[green, thick] c[fill=green!20],
+        d[fill=green!20] --[green, thick] e[fill=green!20] -- f -- g
+      };
+      d -- (h) -- f;
+      b --[green, thick] d;
+      c --[green, thick] e;
+    };
+  \end{tikzpicture}
+  \caption{Un ciclo (en verde) en $G$.}\label{fig:graph}
+  \end{subfigure}
+\end{figure}
+
+Cuando dos gr\'aficas son b\'asicamente la misma, pero no necesariamente iguales, son llamadas \emph{isomorfas}. La definici\'on de isomorfismo es como sigue:
+
+\begin{definition}[Isomorfismo]
+Un \textbf{isomorfismo} entre dos gr\'aficas $G_1$ y $G_2$ es una biyecci\'on $f: V_1 \to V_2$ entre los v\'ertices de las gr\'aficas tal que $\{a,b\}$ es una arista en $G_1$ si, y solo si, $\{f(a), f(b)\}$ es una arista en $G_2$.
+\end{definition}
+
+\begin{figure}
+\centering
+  \begin{subfigure}{0.4\textwidth}
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=red!20}]
+    \graph [simple necklace layout] {
+      a -- {
+        b -- c,
+        d -- e -- f -- g
+      };
+    };
+  \end{tikzpicture}
+  \caption{Gr\'afica $G'$}
+  \end{subfigure}
+  \begin{subfigure}{0.4\textwidth}
+  \begin{tikzpicture} [every node/.style={rectangle, draw, fill=green!20}]
+    \graph {
+      1 -- {
+        2 -- 3,
+        4 -- 5 -- 6 -- 7
+      };
+    };
+  \end{tikzpicture}
+  \caption{Gr\'afica $H'$}
+  \end{subfigure}
+  \caption{Isomorfismo entre $G'$ y $H'$.}\label{fig:graph}
+\end{figure}
+
+Dos gr\'aficas son isomorfas si existe un isomorfismo entre ellas. En ese caso escribimos $G_1\cong G_2$
+
+\begin{definition}[Subgr\'afica]
+Decimos que $G' = (V', E')$ es una \textbf{subgr\'afica} de $G=(V,E)$, y escribimos $G'\subseteq G$, si se cumple que $V'\subseteq V$ y que $E'\subseteq E$.
+\end{definition}
+\begin{figure}
+\centering
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    \graph {
+        d -- e; f -- g;
+    };
+  \end{tikzpicture}
+  \caption{Una subgr\'afica de $G$. No inducida, pues la arista $(e,f)$ no aparece.}\label{fig:graph}
+\end{figure}
+
+\begin{definition}[Subgr\'afica inducida]
+Decimos que $G' = (V', E')$ es una \textbf{subgr\'afica inducida} de $G=(V,E)$ si se cumple que $V'\subseteq V$ y que cada arista en $E$ cuyos v\'ertices siguen estando en $V'$ tambi\'en es una arista en $E'$.
+\end{definition}
+\begin{figure}
+\centering
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    \graph {
+        d -- e -- f -- g;
+    };
+  \end{tikzpicture}
+  \caption{Una subgr\'afica inducidad de $G$.}\label{fig:graph}
+\end{figure}
+
+\begin{definition}[Gr\'afica conexa]
+Una gr\'afica es \textbf{conexa} cuando podemos llegar de cualquier v\'ertice a cualquier otro v\'ertice siguiendo alg\'un camino de aristas.
+\end{definition}
+
+\begin{definition}[Grado de un v\'ertice]
+Al n\'umero de aristas que emanan de un v\'ertice dado le llamamos el \textbf{grado} de ese v\'ertice. El m\'aximo (o el m\'inimo) grado \emph{de una gr\'afica} hace referencia al m\'aximo (o el m\'inimo) grado de sus v\'ertices.
+\end{definition}
+
+\begin{definition}[Gr\'afica plana]
+Cuando una gr\'afica puede ser dibujada en el plano sin que ninguna de sus aristas se crucen, se dice que es \textbf{plana}.
+\end{definition}
+
+\subsection{\'Arboles}
+\label{section:arboles}
+
+\begin{definition}[\'Arbol]
+Un \textbf{\'arbol} es una gr\'afica \emph{conexa} y que no contiene \emph{ciclos}.
+\end{definition}
+
+Cuando designamos un nodo como \emph{ra\'iz}, todos los dem\'as v\'ertices en el \'arbol pueden ser identificados por su posici\'on relativa a la ra\'iz. Esto es debido a que existe un \'unico camino entre cualesquiera dos v\'ertices en un \'arbol.
+
+Si dos vértices son adyacentes, decimos que uno de ellos es el \textbf{padre} del otro, el cual es llamado \textbf{hijo}. De los dos, el padre es el que se encuentra m\'as cerca de la r\'aiz. Por lo tanto la ra\'iz del \'arbol es un padre pero no es el hijo de ning\'un v\'ertice.
+
+As\'i mismo, el hijo de el hijo de un v\'ertice es el \textbf{nieto} de ese v\'ertice (convirti\'endose en \textbf{abuelo}). Generalizando, decimos que un v\'ertice $v$ es\textbf{descendiente} de un v\'ertice $u$ si $u$ es un v\'ertice en el camino de $v$ a la ra\'iz. Entonces, llamaremos a $u$, un \textbf{ancestro} de $v$.
+
+El propósito de este lenguaje es ayudarnos a recorrer el árbol. Recorrer el árbol, visitando cada nodo en algún orden, es un paso escencial en muchos algoritmos. Cuando visitamos primero todos los vértices de una misma generación antes de visitar la siguiente, decimos que hacemos una \textbf{b\'usqueda a lo ancho} (en inglés BFS o \textit{Breadth First Search}). Por otro lado, cuando primero viajamos a lo más alejado posible de la raíz, y luego retrocedemos hasta una disyunción y poder viajar hacia adelante otra vez, le llamamos \textbf{b\'usqueda en profundidad} (en inglés DFS o \textit{Depth First Search}). Decimos ``b\'usqueda'' porque la mayoría de las veces recorremos el árbol tratando de encontrar vértices con cierta propiedad.
+
+\begin{definition}[\'Arbol generador]
+Dada una gr\'afica conexa $G$, un \textbf{\'arbol generador} de $G$ es una subgr\'afica de $G$ que es un \'arbol y que contiene todos los v\'ertices de $G$. Todas las gr\'aficas conexas tienen \'arbol generador.
+\end{definition}
+
+\begin{figure}
+\centering
+  \begin{subfigure}{0.4\textwidth}
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    %\draw[help lines] (0,0) grid (4,-2);
+    \node (h) at (2,-2) {h};
+    \graph {
+      a -- b -- c;
+      d   -- e -- f -- g;
+      (h) -- g;
+      c -- e;
+    };
+  \end{tikzpicture}
+  \caption{Un \'arbol generador de $G$.}\label{fig:graph}
+  \end{subfigure}
+  \begin{subfigure}{0.4\textwidth}
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    %\draw[help lines] (0,0) grid (4,-2);
+    \node (h) at (2,-2) {h};
+    \graph {
+      a -- {
+        b -- c,
+        d -- e -- f -- g
+      };
+      d -- (h);
+    };
+  \end{tikzpicture}
+  \caption{Otro \'arbol generador de $G$.}
+  \end{subfigure}
+\end{figure}
+
+\section{Gr\'aficas geom\'etricas}
+
+\begin{definition}[Gr\'afica geom\'etrica]
+Una gr\'afica es \textbf{geom\'etrica} cuando es dibujada en el plano (no necesariamente es plana) utilizando segmentos (parte de una l\'inea, definido por dos puntos), y ning\'una tercia de v\'ertices yacen sobre la misma l\'inea recta, es decir que no son \emph{colineales}. \cite{handbook}
+\end{definition}
+
+Aunque la definición de gráfica plana es muy similar, vale la pena denotar las diferencias: la planaridad es la cualidad de una gŕafica de \textit{poder} ser dibujada sin que sus aristas se crucen, una gráfica geométrica necesariamente está representada en el plano; a diferencia de nuestra definición de gráfica geométrica, las gráficas planas pueden tener arcos (segmentos de líneas curvas) como aristas.
+
+Las siguientes definiciones fueron basadas en \citetitle{tamassia}\cite{tamassia}, excepto donde se indique lo contrario.
+
+\begin{definition}[Gr\'afica de plano]
+Una \textbf{gr\'afica de plano}, $G=(V, E)$ es una gr\'afica geom\'etrica como la definida anteriormente salvo dos diferencias; el conjunto de aristas $E$ es un conjunto de curvas simples que conectan dos v\'ertices en $V$ y, las curvas simples de $E$ no se cruzan entre ellas, excepto, posiblemente, en los extremos. Una gr\'afica de plano divide al conjunto de puntos en el plano que no pertenecen a las aristas en regiones conectadas topológicamente, llamadas \emph{caras}. La región no acotada es llamada \emph{cara externa}. Una gr\'afica es planar si es isomorfa a alguna gr\'afica de plano.
+\end{definition}
+
+\begin{definition}[Representaci\'on planar]
+Le llamaremos \textbf{representaci\'on planar} al conjunto de listas ordenadas de aristas $P(f)$, una por cada cara $f$, que describen la estructura topol\'ogica de la gr\'afica al listar las aristas que aparecen en el contorno de cada cara, y especificando la cara externa.
+\end{definition}
+
+\begin{definition}[Malla rectilinea]
+La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar infinita cuyos v\'ertices (o puntos) tienen coordenadas enteras, y cuyas aristas ligan a cada par de v\'ertices que se encuentran a distancia unitaria. Un \textbf{encajamiento planar en la malla} de una gr\'afica $G$ es una correspondencia $Q$ de $G$ que cumple que: (1) $Q$ mapea cada v\'ertice en $G$ a una posici\'on distinta de la malla; (2) $Q$ mapea cada arista $e$ de $G$ a un camino en la malla $Q(e)$ cuyos extremos son mapeos de v\'ertices ligados por $e$; (3) Los caminos $Q(e')$ y $Q(e'')$ correspondientes a cada par de aristas $\{e', e''\}$ de $G$, no tienen puntos en com\'un, excepto, tal vez, los extremos.
+\end{definition}
+
+La gr\'afica planar $Q(G)$ definida por el encajamiento (o incrustamiento) $Q$ es isomorfa a $G$. Una gr\'afica admite ser incrustada en la malla si, y solo si, es planar y sus v\'ertices tienen un grado m\'aximo menor o igual 4. Para acortar, nos referiremos a estas graficas como \emph{4-planares}.
+
+\begin{definition}[Gr\'afica ortogonal]
+Una \textbf{gr\'afica ortogonal} es una gr\'afica de plano cuyas aristas son secuencias alternantes de segmentos horizontales y verticales. La \emph{representacion ortogonal} describe la forma de una gr\'afica ortogonal, sin considerar la longitud de los segmentos.
+\end{definition}
+
+\begin{definition}[Doblez]
+Contamos un \emph{doblez}\cite{minbends} por cada par de aristas consecutivas en una gr\'afica ortogonal que no yacen sobre la misma l\'inea.
+\end{definition}
+
+\begin{definition}[Modelo en l\'inea recta]
+Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footnote{Del ingl\'es: \textit{straight model}, cuya traducci\'on propiamente ser\'ia modelo-rl} se refiere a la gr\'afica ortogonal que resulta del encajamiento planar de un \'arbol en la malla.
+\end{definition}
+
+\begin{definition}[Modelo local en l\'inea recta]
+Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta de $T$, junto con una colecci\'on de \emph{ordenamientos locales} $\{l_v\}_{v\in V}$, donde $\{l_v\}$ indica los \'angulos entre las aristas incidentes a $v$, sin importar rotaciones. Para nuestro caso ortogonal, todos los \'angulos descritos por $\{l_v\}$ son multiplos de $\pi/2$.
+\end{definition}

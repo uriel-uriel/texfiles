@@ -18,9 +18,10 @@ Una \textbf{gr\'afica} es un par ordenado $G=(V, E)$ que consiste de un conjunto
         b -- c,
         d -- e -- f -- g
       };
-      d -- (h) -- f;
+      d -- (h) --[bend left] f;
       b -- d;
       c -- e;
+      e -- i;
     };
   \end{tikzpicture}
   \caption{Una gr\'afica conexa $G$.}\label{fig:graph}
@@ -158,7 +159,7 @@ Cuando designamos un nodo como \emph{ra\'iz}, todos los dem\'as v\'ertices en el
 
 Si dos vértices son adyacentes, decimos que uno de ellos es el \textbf{padre} del otro, el cual es llamado \textbf{hijo}. De los dos, el padre es el que se encuentra m\'as cerca de la r\'aiz. Por lo tanto la ra\'iz del \'arbol es un padre pero no es el hijo de ning\'un v\'ertice.
 
-As\'i mismo, el hijo de el hijo de un v\'ertice es el \textbf{nieto} de ese v\'ertice (convirti\'endose en \textbf{abuelo}). Generalizando, decimos que un v\'ertice $v$ es\textbf{descendiente} de un v\'ertice $u$ si $u$ es un v\'ertice en el camino de $v$ a la ra\'iz. Entonces, llamaremos a $u$, un \textbf{ancestro} de $v$.
+As\'i mismo, el hijo de el hijo de un v\'ertice es el \textbf{nieto} de ese v\'ertice (convirti\'endose en \textbf{abuelo}). Generalizando, decimos que un v\'ertice $v$ es \textbf{descendiente} de un v\'ertice $u$ si $u$ es un v\'ertice en el camino de $v$ a la ra\'iz. Entonces, llamaremos a $u$, un \textbf{ancestro} de $v$.
 
 El propósito de este lenguaje es ayudarnos a recorrer el árbol. Recorrer el árbol, visitando cada nodo en algún orden, es un paso escencial en muchos algoritmos. Cuando visitamos primero todos los vértices de una misma generación antes de visitar la siguiente, decimos que hacemos una \textbf{b\'usqueda a lo ancho} (en inglés BFS o \textit{Breadth First Search}). Por otro lado, cuando primero viajamos a lo más alejado posible de la raíz, y luego retrocedemos hasta una disyunción y poder viajar hacia adelante otra vez, le llamamos \textbf{b\'usqueda en profundidad} (en inglés DFS o \textit{Depth First Search}). Decimos ``b\'usqueda'' porque la mayoría de las veces recorremos el árbol tratando de encontrar vértices con cierta propiedad.
 
@@ -195,6 +196,7 @@ Dada una gr\'afica conexa $G$, un \textbf{\'arbol generador} de $G$ es una subgr
   \end{tikzpicture}
   \caption{Otro \'arbol generador de $G$.}
   \end{subfigure}
+  \caption{\'Arbol generador}
 \end{figure}
 
 \section{Gr\'aficas geom\'etricas}
@@ -219,6 +221,15 @@ Le llamaremos \textbf{representaci\'on planar} al conjunto de listas ordenadas d
 La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar infinita cuyos v\'ertices (o puntos) tienen coordenadas enteras, y cuyas aristas ligan a cada par de v\'ertices que se encuentran a distancia unitaria. Un \textbf{encajamiento planar en la malla} de una gr\'afica $G$ es una correspondencia $Q$ de $G$ que cumple que: (1) $Q$ mapea cada v\'ertice en $G$ a una posici\'on distinta de la malla; (2) $Q$ mapea cada arista $e$ de $G$ a un camino en la malla $Q(e)$ cuyos extremos son mapeos de v\'ertices ligados por $e$; (3) Los caminos $Q(e')$ y $Q(e'')$ correspondientes a cada par de aristas $\{e', e''\}$ de $G$, no tienen puntos en com\'un, excepto, tal vez, los extremos.
 \end{definition}
 
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{scope} [node distance=5mm and 5mm]
+      \node (a) at (2, 2) {a};
+      \
+    \end{scope}
+  \end{tikzpicture}
+\end{figure}
+
 La gr\'afica planar $Q(G)$ definida por el encajamiento (o incrustamiento) $Q$ es isomorfa a $G$. Una gr\'afica admite ser incrustada en la malla si, y solo si, es planar y sus v\'ertices tienen un grado m\'aximo menor o igual 4. Para acortar, nos referiremos a estas graficas como \emph{4-planares}.
 
 \begin{definition}[Gr\'afica ortogonal]
@@ -229,10 +240,68 @@ Una \textbf{gr\'afica ortogonal} es una gr\'afica de plano cuyas aristas son sec
 Contamos un \emph{doblez}\cite{minbends} por cada par de aristas consecutivas en una gr\'afica ortogonal que no yacen sobre la misma l\'inea.
 \end{definition}
 
+\begin{figure}
+  \begin{subfigure}{0.4\textwidth}
+    \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+      \graph {a -- b -- c};
+    \end{tikzpicture}
+    \caption{No hay doblez entre $a$ y $c$}
+  \end{subfigure}
+  \begin{subfigure}{0.4\textwidth}
+    \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+      \graph {a -- b -- c[x=-1, y=1]};
+    \end{tikzpicture}
+    \caption{S\'i hay doblez entre $a$ y $c$}
+  \end{subfigure}
+  \caption{Doblez}
+\end{figure}
+
 \begin{definition}[Modelo en l\'inea recta]
 Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footnote{Del ingl\'es: \textit{straight model}, cuya traducci\'on propiamente ser\'ia modelo-rl} se refiere a la gr\'afica ortogonal que resulta del encajamiento planar de un \'arbol en la malla.
 \end{definition}
 
 \begin{definition}[Modelo local en l\'inea recta]
 Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta de $T$, junto con una colecci\'on de \emph{ordenamientos locales} $\{l_v\}_{v\in V}$, donde $\{l_v\}$ indica los \'angulos entre las aristas incidentes a $v$, sin importar rotaciones. Para nuestro caso ortogonal, todos los \'angulos descritos por $\{l_v\}$ son multiplos de $\pi/2$.
+\end{definition}
+
+\section{Notaci\'on asint\'otica}
+
+Definiciones tomadas de \citetitle{cormenetal}\cite{cormenetal}.
+
+En algoritmos, al analizar tamaniios de entrada suficientemente grandes como para hacer relevante \'unicamente el crecimiento del tiempo de ejecuci\'on, decimos que estamos estudiando la eficiencia \textbf{asint\'otica} del algoritmo. Es decir, nos interesa c\'omo crece el tiempo de ejecuci\'on de un algoritmo cuando el tamaniio de la entrada est\'a en el l\'imite, creciendo sin restricci\'on.
+
+\begin{definition}[Notaci\'on $O$]
+Cuando solamente tenemos el \textbf{l\'imite asint\'otico superior}, utilizamos notaci\'on de $O$. Dada una funci\'on $g(n)$, denotamos $O(g(n))$ (pronunciada ``o grande de g de n'' o, algunas veces, solo ``o de g de n'') al conjunto de funciones
+\end{definition}
+
+\begin{equation*}
+\begin{split}
+O(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\
+\text{ tal que } 0 \leq f(n) \leq cg(n) \text{ para toda } n \geq n_0\}
+\end{split}
+\end{equation*}
+
+Usamos la notaci\'on $O$ para dar una cota superior de una funci\'on, dentro de un factor constante.
+
+\begin{definition}[Notaci\'on $\Omega$]
+
+As\'i como la notaci\'on de $O$ nos provee de un l\'imite asint\'otico \textit{por arriba} o \textit{superior}, $\Omega$ nos indica el \textbf{l\'imite asint\'otico inferior}. Dada una funci\'on $g(n)$, denotamos $\Omega(g(n))$ (pronunciada ``omega grande de g de n'' o, algunas veces, solo ``omega de g de n'') al conjunto de funciones
+\end{definition}
+
+\begin{equation*}
+\begin{split}
+O(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\ \text{ tal que } 0 \leq cg(n) \leq f(n) \text{ para toda } n \geq n_0\}
+\end{split}
+\end{equation*}
+
+\begin{definition}[Notaci\'on $\Theta$]
+
+Por \'ultimo, cuando tenemos ``ensandwichada'' la funci\'on, decimos que tenemos un \textbf{l\'imite asint\'otico justo} seniialada por $\Theta$. Dada una funci\'on $g(n)$, denotamos $\Theta(g(n))$ (pronunciada ``theta grande de g de n'' o, algunas veces, solo ``theta de g de n'') al conjunto de funciones
+
+\begin{equation*}
+\begin{split}
+O(g(n)) = \{f(n): \text{ existen tres constantes positivas } c_1, c_2 \text{ y } n_0 \\
+\text{ tal que } 0 \leq c_1g(n) \leq f(n) \leq c_2g(n) \text{ para toda } n \geq n_0\}
+\end{split}
+\end{equation*}
 \end{definition}

@@ -1,6 +1,14 @@
 #! /bin/sh
-MAIN=/home/teonana/Documents/proshects/tesis/template/main.tex
-cd /home/teonana/Documents/proshects/tesis/template/
+
+if [ -n "$WORKDIR" ]; then
+    echo $WORKDIR
+else
+    echo "empty WORKDIR"
+    exit 0
+fi
+
+MAIN=$WORKDIR/main.tex
+cd $WORKDIR
 pdflatex -synctex=1 -interaction=batchmode -shell-escape $MAIN
 biber $MAIN --onlylog #--validate_datamodel
 makeglossaries $MAIN

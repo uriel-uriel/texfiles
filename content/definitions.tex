@@ -1,4 +1,4 @@
-\chapter{Conceptos Fundamentales} 
+\chapter{Conceptos Fundamentales}
 
 \section{Gr\'aficas}
 
@@ -170,31 +170,31 @@ Dada una gr\'afica conexa $G$, un \textbf{\'arbol generador} de $G$ es una subgr
 \begin{figure}
 \centering
   \begin{subfigure}{0.4\textwidth}
-  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
-    %\draw[help lines] (0,0) grid (4,-2);
-    \node (h) at (2,-2) {h};
-    \graph {
-      a -- b -- c;
-      d   -- e -- f -- g;
-      (h) -- g;
-      c -- e;
-    };
-  \end{tikzpicture}
-  \caption{Un \'arbol generador de $G$.}\label{fig:graph}
+    \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+      %\draw[help lines] (0,0) grid (4,-2);
+      \node (h) at (2,-2) {h};
+      \graph {
+        a -- b -- c;
+        d   -- e -- f -- g;
+        (h) -- g;
+        c -- e;
+      };
+    \end{tikzpicture}
+    \caption{Un \'arbol generador de $G$.}\label{fig:graph}
   \end{subfigure}
   \begin{subfigure}{0.4\textwidth}
-  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
-    %\draw[help lines] (0,0) grid (4,-2);
-    \node (h) at (2,-2) {h};
-    \graph {
-      a -- {
-        b -- c,
-        d -- e -- f -- g
+    \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+      %\draw[help lines] (0,0) grid (4,-2);
+      \node (h) at (2,-2) {h};
+      \graph {
+        a -- {
+          b -- c,
+          d -- e -- f -- g
+        };
+        d -- (h);
       };
-      d -- (h);
-    };
-  \end{tikzpicture}
-  \caption{Otro \'arbol generador de $G$.}
+    \end{tikzpicture}
+    \caption{Otro \'arbol generador de $G$.}
   \end{subfigure}
   \caption{\'Arbol generador}
 \end{figure}
@@ -205,7 +205,7 @@ Dada una gr\'afica conexa $G$, un \textbf{\'arbol generador} de $G$ es una subgr
 Una gr\'afica es \textbf{geom\'etrica} cuando es dibujada en el plano (no necesariamente es plana) utilizando segmentos (parte de una l\'inea, definido por dos puntos), y ning\'una tercia de v\'ertices yacen sobre la misma l\'inea recta, es decir que no son \emph{colineales}. \cite{handbook}
 \end{definition}
 
-Aunque la definición de gráfica plana es muy similar, vale la pena denotar las diferencias: la planaridad es la cualidad de una gŕafica de \textit{poder} ser dibujada sin que sus aristas se crucen, una gráfica geométrica necesariamente está representada en el plano; a diferencia de nuestra definición de gráfica geométrica, las gráficas planas pueden tener arcos (segmentos de líneas curvas) como aristas.
+Aunque la definición de gráfica plana es muy similar, vale la pena denotar las diferencias: la planaridad es la cualidad de una gŕafica de \textit{poder} ser dibujada sin que sus aristas se crucen, mientras que una gráfica geométrica necesariamente está representada en el plano.
 
 Las siguientes definiciones fueron basadas en \citetitle{tamassia}\cite{tamassia}, excepto donde se indique lo contrario.
 
@@ -213,28 +213,148 @@ Las siguientes definiciones fueron basadas en \citetitle{tamassia}\cite{tamassia
 Una \textbf{gr\'afica de plano}, $G=(V, E)$ es una gr\'afica geom\'etrica como la definida anteriormente salvo dos diferencias; el conjunto de aristas $E$ es un conjunto de curvas simples que conectan dos v\'ertices en $V$ y, las curvas simples de $E$ no se cruzan entre ellas, excepto, posiblemente, en los extremos. Una gr\'afica de plano divide al conjunto de puntos en el plano que no pertenecen a las aristas en regiones conectadas topológicamente, llamadas \emph{caras}. La región no acotada es llamada \emph{cara externa}. Una gr\'afica es planar si es isomorfa a alguna gr\'afica de plano.
 \end{definition}
 
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{scope} [every node/.style={circle, draw, fill=blue!20}]
+      \node (a) at (2, 0) {a};
+      \node (b) at (0, -1) {b};
+      \node (c) at (1.5, -1.5) {c};
+      \node (d) at (0.5, -3) {d};
+      \node (e) at (3.5, -2.5) {e};
+      \graph {
+        (b) -- {(a), (c), (d)};
+        (c) -- {(a), (d)};
+        (a) --[bend left] (e);
+        (d) --[bend right] (e);
+      };
+    \end{scope}
+    \begin{scope}
+      \node (f1) at (2.3, -2) {$f_1$};
+      \node (f2) at (1.3, -0.75) {$f_2$};
+      \node (f3) at (0.6, -1.9) {$f_3$};
+      \node (fe) at (3.5, -0.6) {$f_e$};
+      \graph {
+        (f1);
+        (f2);
+        (f3);
+        (fe);
+      };
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Gr\'afica de plano}
+\end{figure}
+
 \begin{definition}[Representaci\'on planar]
 Le llamaremos \textbf{representaci\'on planar} al conjunto de listas ordenadas de aristas $P(f)$, una por cada cara $f$, que describen la estructura topol\'ogica de la gr\'afica al listar las aristas que aparecen en el contorno de cada cara, y especificando la cara externa.
 \end{definition}
 
-\begin{definition}[Malla rectilinea]
-La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar infinita cuyos v\'ertices (o puntos) tienen coordenadas enteras, y cuyas aristas ligan a cada par de v\'ertices que se encuentran a distancia unitaria. Un \textbf{encajamiento planar en la malla} de una gr\'afica $G$ es una correspondencia $Q$ de $G$ que cumple que: (1) $Q$ mapea cada v\'ertice en $G$ a una posici\'on distinta de la malla; (2) $Q$ mapea cada arista $e$ de $G$ a un camino en la malla $Q(e)$ cuyos extremos son mapeos de v\'ertices ligados por $e$; (3) Los caminos $Q(e')$ y $Q(e'')$ correspondientes a cada par de aristas $\{e', e''\}$ de $G$, no tienen puntos en com\'un, excepto, tal vez, los extremos.
-\end{definition}
-
-\begin{figure}
-  \begin{tikzpicture}
-    \begin{scope} [node distance=5mm and 5mm]
-      \node (a) at (2, 2) {a};
-      \
-    \end{scope}
-  \end{tikzpicture}
-\end{figure}
-
-La gr\'afica planar $Q(G)$ definida por el encajamiento (o incrustamiento) $Q$ es isomorfa a $G$. Una gr\'afica admite ser incrustada en la malla si, y solo si, es planar y sus v\'ertices tienen un grado m\'aximo menor o igual 4. Para acortar, nos referiremos a estas graficas como \emph{4-planares}.
-
 \begin{definition}[Gr\'afica ortogonal]
 Una \textbf{gr\'afica ortogonal} es una gr\'afica de plano cuyas aristas son secuencias alternantes de segmentos horizontales y verticales. La \emph{representacion ortogonal} describe la forma de una gr\'afica ortogonal, sin considerar la longitud de los segmentos.
 \end{definition}
+
+\begin{figure}
+  \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
+    \draw[black!20, thin] (-0.1,-0.1) grid (10.1,6.1);
+    \node (a) at (1, 3) {a};
+    \node (b) at (4, 5) {b};
+    \node (c) at (3, 1) {c};
+    \node (d) at (6, 3) {d};
+    \node (e) at (8, 4) {e};
+    \draw (a) -- (1,4) -- (2,4) -- (2,5) -- (b);
+    \draw (a) -- (d);
+    \draw (3,3) -- (c);
+    \draw (d) -- (6, 4) -- (e);
+    \draw (b) -- (9,5) -- (9,1) -- (c);
+  \end{tikzpicture}
+  \caption{Gr\'afica ortogonal}
+\end{figure}
+
+\begin{definition}[Malla rectilinea]
+La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar infinita cuyos v\'ertices (o puntos) tienen coordenadas enteras, y cuyas aristas ligan a cada par de v\'ertices que se encuentran a distancia unitaria. Un \textbf{encajamiento planar} en la malla $M = (V_M, E_M)$, de una gr\'afica $G = (V, M)$ es una correspondencia $Q: G\mapsto M$ que cumple que: (1) $Q$ mapea cada v\'ertice en $G$ a una posici\'on distinta de la malla; (2) $Q$ mapea cada arista $e$ de $G$ a un camino en la malla $Q(e)$ cuyos extremos son mapeos de v\'ertices ligados por $e$; (3) Los caminos $Q(e')$ y $Q(e'')$ correspondientes a cada par de aristas $\{e', e''\}$ de $G$, no tienen puntos en com\'un, excepto, tal vez, los extremos.
+\end{definition}
+
+\begin{figure}
+  \begin{subfigure}{0.3\textwidth}
+    \begin{tikzpicture}
+      \draw[step=.5cm, thin, gray] (-1.4,-1.4) grid (1.4,1.4);
+    \end{tikzpicture}
+    \caption{Rectil\'inea}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+    \begin{tikzpicture}[hexa/.style= {shape=regular polygon, regular polygon sides=6, minimum size=0.5cm, draw,anchor=south, thin, gray}]
+      \foreach \j in {0,...,4}{%
+         \ifodd\j
+             \foreach \i in {0,...,4}{\node[hexa] (h\j;\i) at ({\j/4+\j/8},{((\i+1/2)*sin(60))/2}) {};}
+        \else
+             \foreach \i in {0,...,4}{\node[hexa] (h\j;\i) at ({\j/4+\j/8},{(\i*sin(60))/2}) {};}
+        \fi}
+    \end{tikzpicture}
+    \caption{Hexagonal}
+  \end{subfigure}
+  \begin{subfigure}{0.3\textwidth}
+    \begin{tikzpicture}[scale=0.5]
+      \coordinate (0;0) at (0,0);
+
+      \foreach \c in {1,...,3}{%
+        \foreach \i in {0,...,5}{%
+          \pgfmathtruncatemacro\j{\c*\i}
+          \coordinate (\c;\j) at (60*\i:\c);
+        }
+      }
+      \foreach \i in {0,2,...,10}{%
+        \pgfmathtruncatemacro\j{mod(\i+2,12)}
+        \pgfmathtruncatemacro\k{\i+1}
+        \coordinate (2;\k) at ($(2;\i)!.5!(2;\j)$);
+      }
+      \foreach \i in {0,3,...,15}{%
+        \pgfmathtruncatemacro\j{mod(\i+3,18)}
+        \pgfmathtruncatemacro\k{\i+1}
+        \pgfmathtruncatemacro\l{\i+2}
+        \coordinate (3;\k) at ($(3;\i)!1/3!(3;\j)$);
+        \coordinate (3;\l) at ($(3;\i)!2/3!(3;\j)$);
+      }
+
+      \foreach \i in {0,...,6}{%
+        \pgfmathtruncatemacro\k{\i}
+        \pgfmathtruncatemacro\l{15-\i}
+        \draw[thin,gray] (3;\k)--(3;\l);
+
+        \pgfmathtruncatemacro\k{9-\i}
+        \pgfmathtruncatemacro\l{mod(12+\i,18)}
+        \draw[thin,gray] (3;\k)--(3;\l);
+
+        \pgfmathtruncatemacro\k{12-\i}
+        \pgfmathtruncatemacro\l{mod(15+\i,18)}
+        \draw[thin,gray] (3;\k)--(3;\l);
+      }
+    \end{tikzpicture}
+    \caption{Triangular}
+  \end{subfigure}
+  \caption{Mallas}
+\end{figure}
+
+\begin{figure}
+  \begin{subfigure}{0.5\textwidth}
+    \begin{tikzpicture}[every node/.style={circle, draw, fill=blue!20, radius=0.3cm}]
+      \graph [spring layout, node distance=1.2cm, coarsen] {
+        a -- {b,c,d};
+        b -- {d,f};
+        c -- {f,e};
+        e -- {f,g,h};
+        g -- {h,k,i};
+        k[x=2] -- i;
+      };
+    \end{tikzpicture}
+  \end{subfigure}
+  \begin{subfigure}{0.4\textwidth}
+    \begin{tikzpicture}[scale=0.6]
+      \draw[black!20, thin] (-0.1,-0.1) grid (6.1,6.1);
+    \end{tikzpicture}
+  \end{subfigure}
+  \caption{Q(G)}
+\end{figure}
+
+La gr\'afica planar $Q(G)$ definida por el encajamiento (o incrustamiento) $Q$ es isomorfa a $G$. Una gr\'afica admite ser incrustada en la malla si, y solo si, es planar y sus v\'ertices tienen un grado m\'aximo menor o igual 4. Para acortar, nos referiremos a estas graficas como \emph{4-planares}.
 
 \begin{definition}[Doblez]
 Contamos un \emph{doblez}\cite{minbends} por cada par de aristas consecutivas en una gr\'afica ortogonal que no yacen sobre la misma l\'inea.
@@ -259,6 +379,35 @@ Contamos un \emph{doblez}\cite{minbends} por cada par de aristas consecutivas en
 \begin{definition}[Modelo en l\'inea recta]
 Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footnote{Del ingl\'es: \textit{straight model}, cuya traducci\'on propiamente ser\'ia modelo-rl} se refiere a la gr\'afica ortogonal que resulta del encajamiento planar de un \'arbol en la malla.
 \end{definition}
+
+\begin{figure}
+  \begin{tikzpicture}
+    \begin{scope}[every node/.style={circle, draw, fill=blue!20}]
+      \graph [trie, simple, layered layout] {
+         a -- b -- e,
+         a -- b -- f,
+         a -- {c, d}
+      };
+    \end{scope}
+    \draw [-Stealth] (3,-1) to[bend left] (5,-1) node[xshift=4cm,yshift=-0.5cm,midway,above]{encajamiento!};
+    \begin{scope} [xshift=7cm, every node/.style={circle, draw, fill=blue!20}]
+      \draw[thin, black!20] (-1.1,1.1) grid (3.1,-3.1);
+      \node (a) at (1, -1) {a};
+      \node (b) at (0, -1) {b};
+      \node (c) at (1, -2) {c};
+      \node (d) at (2, -1) {d};
+      \node (e) at (0, 0) {e};
+      \node (f) at (0, -2) {f};
+      \graph {
+         (a) --[thick] (b) --[thick] (e),
+         (a) --[thick] (b) --[thick] (f),
+         (a) --[thick] (c),
+         (a) --[thick] (d)
+      };
+    \end{scope}
+  \end{tikzpicture}
+  \caption{Modelo en l\'inea recta}
+\end{figure}
 
 \begin{definition}[Modelo local en l\'inea recta]
 Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta de $T$, junto con una colecci\'on de \emph{ordenamientos locales} $\{l_v\}_{v\in V}$, donde $\{l_v\}$ indica los \'angulos entre las aristas incidentes a $v$, sin importar rotaciones. Para nuestro caso ortogonal, todos los \'angulos descritos por $\{l_v\}$ son multiplos de $\pi/2$.

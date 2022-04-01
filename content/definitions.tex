@@ -145,8 +145,15 @@ Al n\'umero de aristas que emanan de un v\'ertice dado le llamamos el \textbf{gr
 \end{definition}
 
 \begin{definition}[Gr\'afica plana]
-Cuando una gr\'afica puede ser dibujada en el plano sin que ninguna de sus aristas se crucen, se dice que es \textbf{plana}.
+Cuando una gr\'afica \textit{puede} ser dibujada en el plano sin que ninguna de sus aristas se crucen, se dice que es \textbf{plana}.
 \end{definition}
+
+\begin{figure}
+  \begin{tikzpicture}
+    \graph [clockwise] { subgraph K_n [n=5] };
+  \end{tikzpicture}
+  \caption{Grafica plana, no representada en su forma plana.}
+\end{figure}
 
 \subsection{\'Arboles}
 \label{section:arboles}
@@ -345,13 +352,49 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
         k[x=2] -- i;
       };
     \end{tikzpicture}
+    \caption{G}
   \end{subfigure}
   \begin{subfigure}{0.4\textwidth}
-    \begin{tikzpicture}[scale=0.6]
-      \draw[black!20, thin] (-0.1,-0.1) grid (6.1,6.1);
+    \begin{tikzpicture}[scale=0.6, every node/.style={circle, draw, fill=blue!20, radius=0.3cm}]
+      \draw[black!20, thin] (-0.3,-0.3) grid (10.3,5.3);
+      \node (a) at (0,2) {a};
+      \node (b) at (2,0) {b};
+      \node (c) at (0,4) {c};
+      \node (d) at (0,0) {d};
+      \node (e) at (6,2) {e};
+      \node (f) at (4,2) {f};
+      \node (g) at (8,2) {g};
+      \node (h) at (6,0) {h};
+      \node (i) at (8,4) {i};
+      \node (k) at (10,2) {k};
+      \coordinate (ab) at (2,2) {};
+      \coordinate (bf) at (4,0) {};
+      \coordinate (hg) at (8,0) {};
+      \coordinate (ki) at (10,4) {};
+      \coordinate (cf) at (4,4) {};
+      \coordinate (ce) at (0,5) {};
+      \coordinate (cx) at (6,5) {};
+      \graph {
+        (e) -- {
+          (cx) -- (ce) -- (c),
+          (g) -- {
+            (k) -- (ki) -- (i), (i)
+          },
+          (h) -- (hg) -- (g),
+          (f) -- {
+            (cf) -- (c),
+            (bf) -- (b) -- {
+              (ab) -- (a),
+              (d) -- (a) -- (c)
+            }
+          }
+        },
+        (g) -- (e)
+      };
     \end{tikzpicture}
+    \caption{Q(G)}
   \end{subfigure}
-  \caption{Q(G)}
+  \caption{Encajamiento en la malla}
 \end{figure}
 
 La gr\'afica planar $Q(G)$ definida por el encajamiento (o incrustamiento) $Q$ es isomorfa a $G$. Una gr\'afica admite ser incrustada en la malla si, y solo si, es planar y sus v\'ertices tienen un grado m\'aximo menor o igual 4. Para acortar, nos referiremos a estas graficas como \emph{4-planares}.
@@ -377,7 +420,7 @@ Contamos un \emph{doblez}\cite{minbends} por cada par de aristas consecutivas en
 \end{figure}
 
 \begin{definition}[Modelo en l\'inea recta]
-Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footnote{Del ingl\'es: \textit{straight model}, cuya traducci\'on propiamente ser\'ia modelo-rl} se refiere a la gr\'afica ortogonal que resulta del encajamiento planar de un \'arbol en la malla.
+Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footnote{Del ingl\'es: \textit{straight model}, cuya traducci\'on propiamente ser\'ia modelo-rl} se refiere a la gr\'afica ortogonal que resulta del encajamiento planar de un \'arbol en la malla. Como podemos ver en las figuras correspondientes, un arbol puede ser encajado sin dobleces en las aristas que no incluyen otro nodo del arbol, es decir que todas las aristas se mapean a caminos rectos.
 \end{definition}
 
 \begin{figure}
@@ -412,6 +455,40 @@ Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footno
 \begin{definition}[Modelo local en l\'inea recta]
 Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta de $T$, junto con una colecci\'on de \emph{ordenamientos locales} $\{l_v\}_{v\in V}$, donde $\{l_v\}$ indica los \'angulos entre las aristas incidentes a $v$, sin importar rotaciones. Para nuestro caso ortogonal, todos los \'angulos descritos por $\{l_v\}$ son multiplos de $\pi/2$.
 \end{definition}
+
+\begin{figure}
+  \begin{subfigure}{0.4\textwidth}
+    \begin{tikzpicture} [tree layout, grow=-30,every node/.style={circle, draw, fill=blue!20}]
+      \graph {
+        a -- {
+          b -- {
+            c -- {d,e}
+          },
+          f,
+          g -- {
+            h -- {
+              i, j -- {
+                k, l, m
+              }
+            }
+          }
+        }
+      };
+    \end{tikzpicture}
+    \caption{El \'arbol}
+  \end{subfigure}
+  \begin{subfigure}{0.4\textwidth}
+    \begin{equation*}
+      \begin{split}
+        \{0_a, {\pi/2}_a, \pi_a, 0_b, \pi_b, 0_c, {\pi/2}_c, \\
+        \pi_c, 0_d, 0_e,0_f, 0_g, \pi_g, 0_h, {\pi/2}_h,\pi_h, \\
+        0_i, 0_j, {\pi/2}_j, \pi_j, {3\pi/2}_j, 0_k, 0_l, 0_m\}
+      \end{split}
+    \end{equation*}
+    \caption{Ordenamientos locales.}
+  \end{subfigure}
+  \caption{Un sl-modelo}
+\end{figure}
 
 \section{Notaci\'on asint\'otica}
 

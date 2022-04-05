@@ -341,6 +341,7 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
 \end{figure}
 
 \begin{figure}
+  \centering
   \begin{subfigure}{0.5\textwidth}
     \begin{tikzpicture}[every node/.style={circle, draw, fill=blue!20, radius=0.3cm}]
       \graph [spring layout, node distance=1.2cm, coarsen] {
@@ -393,6 +394,29 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
       };
     \end{tikzpicture}
     \caption{Q(G)}
+  \end{subfigure}
+
+  \begin{subfigure}{0.5\textwidth}
+    \begin{tikzpicture}[scale=0.6, node/.style={circle, draw, fill=blue!20, radius=0.3cm}]
+      \draw [black!20, thin] (-0.3,-0.3) grid (4.3,3.3);
+      \node[node] (c) at (0,2) {c};
+      \node[node] (e) at (4,1) {e};
+      \node[node] (f) at (2,1) {f};
+      \node (a) at (0,0) {...};
+      \node (b) at (2,0) {...};
+      \node (h) at (4,0) {...};
+      \coordinate (cf) at (2,2) {};
+      \coordinate (ce) at (4,2) {};
+      \graph {
+        (a) -- (c) -- (cf) -- {
+          (f) -- {
+            (e), (b)
+            },
+          (ce) -- (e) -- (h)
+        }
+      };
+    \end{tikzpicture}
+    \caption{Este mapeo no cumple la tercera condici\'on}
   \end{subfigure}
   \caption{Encajamiento en la malla}
 \end{figure}
@@ -453,6 +477,7 @@ Un \textbf{modelo en l\'inea recta}\cite{minbends}, o \textbf{s-modelo}, \footno
 \end{figure}
 
 \begin{definition}[Modelo local en l\'inea recta]
+\label{def:slmodel}
 Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta de $T$, junto con una colecci\'on de \emph{ordenamientos locales} $\{l_v\}_{v\in V}$, donde $\{l_v\}$ indica los \'angulos entre las aristas incidentes a $v$, sin importar rotaciones. Para nuestro caso ortogonal, todos los \'angulos descritos por $\{l_v\}$ son multiplos de $\pi/2$.
 \end{definition}
 
@@ -494,39 +519,39 @@ Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta d
 
 Definiciones tomadas de \citetitle{cormenetal}\cite{cormenetal}.
 
-En algoritmos, al analizar tamaniios de entrada suficientemente grandes como para hacer relevante \'unicamente el crecimiento del tiempo de ejecuci\'on, decimos que estamos estudiando la eficiencia \textbf{asint\'otica} del algoritmo. Es decir, nos interesa c\'omo crece el tiempo de ejecuci\'on de un algoritmo cuando el tamaniio de la entrada est\'a en el l\'imite, creciendo sin restricci\'on.
+En algoritmos, al analizar tamaños de entrada suficientemente grandes como para hacer relevante \'unicamente el crecimiento del tiempo de ejecuci\'on, decimos que estamos estudiando la eficiencia \textbf{asint\'otica} del algoritmo. Es decir, nos interesa c\'omo crece el tiempo de ejecuci\'on de un algoritmo cuando el tamaño de la entrada est\'a en el l\'imite, creciendo sin restricci\'on.
 
-\begin{definition}[Notaci\'on $O$]
-Cuando solamente tenemos el \textbf{l\'imite asint\'otico superior}, utilizamos notaci\'on de $O$. Dada una funci\'on $g(n)$, denotamos $O(g(n))$ (pronunciada ``o grande de g de n'' o, algunas veces, solo ``o de g de n'') al conjunto de funciones
+\begin{definition}[Notaci\'on $\mathcal{O}$]
+Cuando solamente tenemos el \textbf{l\'imite asint\'otico superior}, utilizamos notaci\'on de $\mathcal{O}$. Dada una funci\'on $g(n)$, denotamos $\mathcal{O}(g(n))$ (pronunciada ``o grande de g de n'' o, algunas veces, solo ``o de g de n'') al conjunto de funciones
 \end{definition}
 
 \begin{equation*}
 \begin{split}
-O(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\
+\mathcal{O}(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\
 \text{ tal que } 0 \leq f(n) \leq cg(n) \text{ para toda } n \geq n_0\}
 \end{split}
 \end{equation*}
 
-Usamos la notaci\'on $O$ para dar una cota superior de una funci\'on, dentro de un factor constante.
+Usamos la notaci\'on $\mathcal{O}$ para dar una cota superior de una funci\'on, dentro de un factor constante.
 
 \begin{definition}[Notaci\'on $\Omega$]
 
-As\'i como la notaci\'on de $O$ nos provee de un l\'imite asint\'otico \textit{por arriba} o \textit{superior}, $\Omega$ nos indica el \textbf{l\'imite asint\'otico inferior}. Dada una funci\'on $g(n)$, denotamos $\Omega(g(n))$ (pronunciada ``omega grande de g de n'' o, algunas veces, solo ``omega de g de n'') al conjunto de funciones
+As\'i como la notaci\'on de $\mathcal{O}$ nos provee de un l\'imite asint\'otico \textit{por arriba} o \textit{superior}, $\Omega$ nos indica el \textbf{l\'imite asint\'otico inferior}. Dada una funci\'on $g(n)$, denotamos $\Omega(g(n))$ (pronunciada ``omega grande de g de n'' o, algunas veces, solo ``omega de g de n'') al conjunto de funciones
 \end{definition}
 
 \begin{equation*}
 \begin{split}
-O(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\ \text{ tal que } 0 \leq cg(n) \leq f(n) \text{ para toda } n \geq n_0\}
+\Omega(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\ \text{ tal que } 0 \leq cg(n) \leq f(n) \text{ para toda } n \geq n_0\}
 \end{split}
 \end{equation*}
 
 \begin{definition}[Notaci\'on $\Theta$]
 
-Por \'ultimo, cuando tenemos ``ensandwichada'' la funci\'on, decimos que tenemos un \textbf{l\'imite asint\'otico justo} seniialada por $\Theta$. Dada una funci\'on $g(n)$, denotamos $\Theta(g(n))$ (pronunciada ``theta grande de g de n'' o, algunas veces, solo ``theta de g de n'') al conjunto de funciones
+Por \'ultimo, cuando tenemos ``ensandwichada'' la funci\'on, decimos que tenemos un \textbf{l\'imite asint\'otico justo} señalada por $\Theta$. Dada una funci\'on $g(n)$, denotamos $\Theta(g(n))$ (pronunciada ``theta grande de g de n'' o, algunas veces, solo ``theta de g de n'') al conjunto de funciones
 
 \begin{equation*}
 \begin{split}
-O(g(n)) = \{f(n): \text{ existen tres constantes positivas } c_1, c_2 \text{ y } n_0 \\
+\Theta(g(n)) = \{f(n): \text{ existen tres constantes positivas } c_1, c_2 \text{ y } n_0 \\
 \text{ tal que } 0 \leq c_1g(n) \leq f(n) \leq c_2g(n) \text{ para toda } n \geq n_0\}
 \end{split}
 \end{equation*}

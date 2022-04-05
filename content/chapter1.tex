@@ -1,0 +1,22 @@
+% !TEX root = ../main.tex
+% Introduction
+
+\chapter{Renderizado}
+\label{ch:introduction}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:
+
+El propósito final de este escrito es mostar el algortimo que, dado un árbol $T$, encuentra un encajamiento en la malla que minimiza el número máximo de veces que cualquier camino en $T$, se dobla. Hay bastante que desempacar de ese enunciado pero tener el propósito último resumido en una oración nos será útil para mantenernos enfocados.
+
+%%% replicar dibujo de un arbol con mas dobleces que otro.
+
+El primer concepto que abarcaremos es el \textit{modelo recto local} (\ref{def:slmodel}). Dentro de la definición de modelo recto local que incluye los ordenamientos locales, este concepto esta relacionado, pero no es igual, al de \textit{sistemas de rotaci\'on}, ya que este \'ultimo codifica solamente el orden en el que las aristas aparecen alrededor de un v\'ertice $v$. Basado en el hecho de que un vertice puede tener distintos ordenamientos locales para el mismo conjunto de aristas adyacentes, podemos observar que entonces un mismo árbol puede tener distintos ordenamientos locales y, por tanto, múltiples \textit{sl-modelos}, al conjunto de todos los sl-modelos de un árbol $T$ ser7a denotado por $\mathcal{SM(T)}$. Dado que los \textit{s-modelos} son la representaci7on gr7afica de un 7arbol en el plano, cada uno tiene asociado un sl-modelo que es la descripci7on de 7esa representacion. Diremos que el s-modelo es la renderizaci7on del sl-modelo.
+
+%%% replicar el ejemplo.
+
+\begin{lemma}
+    Para todo sl-modelo $\mathcal{M}$, existe un s-modelo que es una renderizaci7on de $\mathcal{M}$, adem7as, dicho modelo puede ser encontrado en tiempo $\mathcal{O}(n)$.
+\end{lemma}

@@ -2,21 +2,151 @@
 % Introduction
 
 \chapter{Renderizado}
-\label{ch:introduction}
+\label{ch:rendering}
 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../main"
 %%% End:
 
+El siguiente desarrollo fue tomado de \citetitle{paper}\cite{paper}
+
 El propósito final de este escrito es mostar el algortimo que, dado un árbol $T$, encuentra un encajamiento en la malla que minimiza el número máximo de veces que cualquier camino en $T$, se dobla. Hay bastante que desempacar de ese enunciado pero tener el propósito último resumido en una oración nos será útil para mantenernos enfocados.
 
-%%% replicar dibujo de un arbol con mas dobleces que otro.
+\begin{figure}
+    \begin{subfigure}{0.4\textwidth}
+        \begin{tikzpicture}[every node/.style={circle, draw, fill=blue!20}]
+            \node (a) at (0, 2) {a};
+            \node (b) at (1, 3) {b};
+            \node (c) at (1, 2) {c};
+            \node (d) at (1, 1) {d};
+            \node (e) at (2, 3) {e};
+            \node (f) at (2, 2) {f};
+            \node (g) at (2, 1) {g};
+            \node (h) at (2, 0) {h};
+            \node (i) at (3, 3) {i};
+            \node (j) at (3, 2) {j};
+            \node (k) at (3, 1) {k};
+            \graph { (a) -- (c) -- (b) -- (e) -- (f) -- {
+                    (j) -- (i), (g) -- {(d), (h), (k)}
+                }
+            };
+        \end{tikzpicture}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \begin{tikzpicture}[every node/.style={circle, draw, fill=blue!20}]
+            \node (d) at (5, -1) {d};
+            \node (i) at (4, 2) {i};
+            \node (j) at (4, 1) {j};
+            \node (k) at (5, 1) {k};
+            \graph { a -- c -- b -- e -- f -- {
+                    (j) -- (i), g -- {
+                        h, (d), (k)
+                    }
+                }
+            };
+        \end{tikzpicture}
+        \caption{}
+    \end{subfigure}
+    \caption{Mismo árbol, diferentes dobleces.}
+\end{figure}
 
-El primer concepto que abarcaremos es el \textit{modelo recto local} (\ref{def:slmodel}). Dentro de la definición de modelo recto local que incluye los ordenamientos locales, este concepto esta relacionado, pero no es igual, al de \textit{sistemas de rotaci\'on}, ya que este \'ultimo codifica solamente el orden en el que las aristas aparecen alrededor de un v\'ertice $v$. Basado en el hecho de que un vertice puede tener distintos ordenamientos locales para el mismo conjunto de aristas adyacentes, podemos observar que entonces un mismo árbol puede tener distintos ordenamientos locales y, por tanto, múltiples \textit{sl-modelos}, al conjunto de todos los sl-modelos de un árbol $T$ ser7a denotado por $\mathcal{SM(T)}$. Dado que los \textit{s-modelos} son la representaci7on gr7afica de un 7arbol en el plano, cada uno tiene asociado un sl-modelo que es la descripci7on de 7esa representacion. Diremos que el s-modelo es la renderizaci7on del sl-modelo.
+El primer concepto que abarcaremos es el \textit{modelo local en linea recta} (\ref{def:slmodel}). Dentro de la definición de modelo local en linea recta se incluye el de ordenamientos locales, este concepto esta relacionado, pero no es igual, al de \textit{sistemas de rotaci\'on}, ya que este \'ultimo codifica solamente el orden en el que las aristas aparecen alrededor de un v\'ertice $v$. Basado en el hecho de que un vertice puede tener distintos ordenamientos locales para el mismo conjunto de aristas adyacentes, podemos observar que entonces un mismo árbol puede tener distintos ordenamientos locales y, por tanto, múltiples \textit{sl-modelos}, al conjunto de todos los sl-modelos de un árbol $T$ será denotado por $\mathcal{SM}(T)$. Dado que los \textit{s-modelos} son la representación gráfica de un árbol en el plano, cada uno tiene asociado un sl-modelo que es la descripción de ésa representación. Diremos que el s-modelo es la renderización del sl-modelo.
 
-%%% replicar el ejemplo.
+\begin{figure}
+    \begin{subfigure}{0.4\textwidth}
+        \begin{tikzpicture}[blue/.style={circle, draw, fill=blue!20}, red/.style={circle, draw, fill=red!20}]
+            \node (a)[red] at (0,4) {a};
+            \node (b)[red] at (0,3) {b};
+            \node (c)[blue] at (3,4) {c};
+            \node (d)[red] at (2,4) {d};
+            \node (e)[blue] at (1,4) {e};
+            \node (f)[blue] at (3,3) {f};
+            \node (aa)[blue] at (2,2) {a};
+            \node (bb)[blue] at (3,1) {b};
+            \node (cc)[red] at (0,2) {c};
+            \node (dd)[blue] at (0,1) {d};
+            \node (ee)[blue] at (1,3) {e};
+            \node (ff)[red] at (2,0) {f};
+            \node (ccc)[blue] at (4,2) {c};
+            \node (eee)[blue] at (1,2) {e};
+            \node (eeee)[red] at (3,2) {e};
+            \node (eeeee)[blue] at (3,0) {e};
+            \graph {
+                (a) -- (e), (d) -- (c), (b) -- (ee), (cc) -- {(eee), (dd)}, (f) -- { (eeee) -- {(aa), (bb), (ccc)}},
+                (ff) -- (eeeee)
+            };
+        \end{tikzpicture}
+        \caption{}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \begin{tikzpicture}[every node/.style={circle, draw, fill=blue!20}]
+            \node (a) at (0, 1) {a};
+            \node (b) at (1,0) {b};
+            \node (c) at (2,1) {c};
+            \node (d) at (2,2) {d};
+            \node (e) at (1,1) {e};
+            \node (f) at (1,2) {f};
+            \graph { (d) -- (c) -- (e) -- {(f), (b), (a)}};
+        \end{tikzpicture}
+        \caption{}
+    \end{subfigure}
+    \caption{(a) Un sl-modelo $\mathcal M$ de seis árboles representando los órdenes locales alrededor de los vértices $\{a,b,c,d,e,f\}$. (b) Un renderizado de $\mathcal M$. Observemos que algunos de los árboles en (a) han sido rotado para alinearse de manera correcta en (b). En general no es cierto que todas las aristas en el renderizado de un sl-modelo necesiten ser de la misma longitud.}
+\end{figure}
+
+Denotaremos como $V$ al conjunto de nodos y $E$ al conjunto de aristas de un árbol $T$
+
+\newpage
 
 \begin{lemma}
-    Para todo sl-modelo $\mathcal{M}$, existe un s-modelo que es una renderizaci7on de $\mathcal{M}$, adem7as, dicho modelo puede ser encontrado en tiempo $\mathcal{O}(n)$.
+  Para todo sl-modelo $\mathcal{M}$, existe un s-modelo que es una renderización de $\mathcal{M}$, además, dicho modelo puede ser encontrado en tiempo $\mathcal{O}(n)$.
 \end{lemma}
+
+\begin{proof}
+  Designamos un nodo arbitrario $v_0$ como raíz y particionamos $V$ en niveles $L_0, L_1, \dots, L_t$, donde
+
+  \begin{equation*}
+    L_i = \{v\in V | d(v_0,v) = i\}
+  \end{equation*}
+
+  es el conjunto de nodos a distancia $i$ de la raíz $v_0$ en $T$. Estos niveles pueden ser encontrados en tiempo lineal (utilizando un recorrido $BFS$, por ejemplo).
+
+\begin{figure}
+    \begin{subfigure}{0.4\textwidth}
+      \begin{tikzpicture}[tree layout, grow=-30,every node/.style={draw, circle, fill=blue!20}]
+          \graph {
+            a["1"] -- {
+              b["2"] -- {
+                c["3"] -- {d["4"], e["4"]}
+              },
+              f["2"],
+              g["0"] -- {
+                h["1"] -- {
+                  i["2"], j["2"] -- {
+                    k["3"], l["3"], m["3"]
+                  }
+                }
+              }
+            }
+          };
+      \end{tikzpicture}
+      \caption{Un árbol con las distancias anotadas a cada nodo, tomando como $v_0$ a $g$.}
+    \end{subfigure}
+    \begin{subfigure}{0.4\textwidth}
+        \begin{equation*}
+          \begin{split}
+            L_0 = \{g\} \\
+            L_1 = \{a, h\} \\
+            L_2 = \{i, j, b\} \\
+            L_3 = \{c, k, l, m\} \\
+            L_4 = \{d, e\}
+          \end{split}
+        \end{equation*}
+        \caption{Particiones por niveles.}
+    \end{subfigure}
+    \caption{}
+\end{figure}
+
+  El s-modelo se construye en $t$ pasos. En el paso $i$, con $1 \leq i \leq t$, dibujamos todas las aristas que tienen uno de sus extremos en $L_{i-1}$ y el otro en $L_i$ como segmentos de longitud $2^{t-i}$, con la única condición de que los ordenamientos locales de $\mathcal{M}$ que corresponden a los vértices en $L{i-1}$ sean respetados, lo cual es posible dado que a lo más uno de los vecinos de cada uno de estos vértices ha sido dibujado hasta ahora.
+\end{proof}

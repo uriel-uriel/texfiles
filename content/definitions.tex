@@ -11,7 +11,6 @@ Una \textbf{gr\'afica} es un par ordenado $G=(V, E)$ que consiste de un conjunto
 \begin{figure}
 \centering
   \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
-    %\draw[help lines] (0,0) grid (4,-2);
     \node (h) at (2,-2) {h};
     \graph {
       a -- {
@@ -29,6 +28,10 @@ Una \textbf{gr\'afica} es un par ordenado $G=(V, E)$ que consiste de un conjunto
 
 \begin{definition}[Adyacencia]
 La \textbf{adyacencia} se define de forma distinta para v\'ertices que para aristas. Dos v\'ertices son adyacentes si estan conectados por una arista. Dos aristas son adyacentes si comparten un v\'ertice.
+\end{definition}
+
+\begin{definition}[Distancia entre nodos]
+La \textbf{distancia entre nodos}, $d(u,v)$ es la cantidad de aristas que es necesario recorrer para llegar del nodo $u$ al nodo $v$, y $d(u,u)=0$.
 \end{definition}
 
 \begin{definition}[Recorrido]
@@ -92,7 +95,7 @@ Un \textbf{isomorfismo} entre dos gr\'aficas $G_1$ y $G_2$ es una biyecci\'on $f
       };
     };
   \end{tikzpicture}
-  \caption{Gr\'afica $G'$}
+  \caption{Gr\'afica $G'$.}
   \end{subfigure}
   \begin{subfigure}{0.4\textwidth}
   \begin{tikzpicture} [every node/.style={rectangle, draw, fill=green!20}]
@@ -103,7 +106,7 @@ Un \textbf{isomorfismo} entre dos gr\'aficas $G_1$ y $G_2$ es una biyecci\'on $f
       };
     };
   \end{tikzpicture}
-  \caption{Gr\'afica $H'$}
+  \caption{Gr\'afica $H'$.}
   \end{subfigure}
   \caption{Isomorfismo entre $G'$ y $H'$.}\label{fig:graph}
 \end{figure}
@@ -152,7 +155,7 @@ Cuando una gr\'afica \textit{puede} ser dibujada en el plano sin que ninguna de 
   \begin{tikzpicture}
     \graph [clockwise] { subgraph K_n [n=5] };
   \end{tikzpicture}
-  \caption{Grafica plana, no representada en su forma plana.}
+  \caption{Grafica con la cualidad de ser plana, pero no representada en su forma plana.}
 \end{figure}
 
 \subsection{\'Arboles}
@@ -203,7 +206,7 @@ Dada una gr\'afica conexa $G$, un \textbf{\'arbol generador} de $G$ es una subgr
     \end{tikzpicture}
     \caption{Otro \'arbol generador de $G$.}
   \end{subfigure}
-  \caption{\'Arbol generador}
+  \caption{\'Arbol generador.}
 \end{figure}
 
 \section{Gr\'aficas geom\'etricas}
@@ -248,7 +251,7 @@ Una \textbf{gr\'afica de plano}, $G=(V, E)$ es una gr\'afica geom\'etrica como l
       };
     \end{scope}
   \end{tikzpicture}
-  \caption{Gr\'afica de plano}
+  \caption{Gr\'afica de plano.}
 \end{figure}
 
 \begin{definition}[Representaci\'on planar]
@@ -273,7 +276,7 @@ Una \textbf{gr\'afica ortogonal} es una gr\'afica de plano cuyas aristas son sec
     \draw (d) -- (6, 4) -- (e);
     \draw (b) -- (9,5) -- (9,1) -- (c);
   \end{tikzpicture}
-  \caption{Gr\'afica ortogonal}
+  \caption{Gr\'afica ortogonal.}
 \end{figure}
 
 \begin{definition}[Malla rectilinea]
@@ -285,7 +288,7 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
     \begin{tikzpicture}
       \draw[step=.5cm, thin, gray] (-1.4,-1.4) grid (1.4,1.4);
     \end{tikzpicture}
-    \caption{Rectil\'inea}
+    \caption{Rectil\'inea.}
   \end{subfigure}
   \begin{subfigure}{0.3\textwidth}
     \begin{tikzpicture}[hexa/.style= {shape=regular polygon, regular polygon sides=6, minimum size=0.5cm, draw,anchor=south, thin, gray}]
@@ -296,7 +299,7 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
              \foreach \i in {0,...,4}{\node[hexa] (h\j;\i) at ({\j/4+\j/8},{(\i*sin(60))/2}) {};}
         \fi}
     \end{tikzpicture}
-    \caption{Hexagonal}
+    \caption{Hexagonal.}
   \end{subfigure}
   \begin{subfigure}{0.3\textwidth}
     \begin{tikzpicture}[scale=0.5]
@@ -335,9 +338,9 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
         \draw[thin,gray] (3;\k)--(3;\l);
       }
     \end{tikzpicture}
-    \caption{Triangular}
+    \caption{Triangular.}
   \end{subfigure}
-  \caption{Mallas}
+  \caption{Mallas.}
 \end{figure}
 
 \begin{figure}
@@ -353,7 +356,7 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
         k[x=2] -- i;
       };
     \end{tikzpicture}
-    \caption{G}
+    \caption{$G$.}
   \end{subfigure}
   \begin{subfigure}{0.4\textwidth}
     \begin{tikzpicture}[scale=0.6, every node/.style={circle, draw, fill=blue!20, radius=0.3cm}]
@@ -393,7 +396,7 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
         (g) -- (e)
       };
     \end{tikzpicture}
-    \caption{Q(G)}
+    \caption{$Q(G)$.}
   \end{subfigure}
 
   \begin{subfigure}{0.5\textwidth}
@@ -416,9 +419,9 @@ La \textbf{malla rectilinea} o \textbf{malla ortogonal} es la gr\'afica planar i
         }
       };
     \end{tikzpicture}
-    \caption{Este mapeo no cumple la tercera condici\'on}
+    \caption{Este mapeo no cumple la tercera condici\'on.}
   \end{subfigure}
-  \caption{Encajamiento en la malla}
+  \caption{Encajamiento en la malla.}
 \end{figure}
 
 La gr\'afica planar $Q(G)$ definida por el encajamiento (o incrustamiento) $Q$ es isomorfa a $G$. Una gr\'afica admite ser incrustada en la malla si, y solo si, es planar y sus v\'ertices tienen un grado m\'aximo menor o igual 4. Para acortar, nos referiremos a estas graficas como \emph{4-planares}.
@@ -432,15 +435,15 @@ Contamos un \emph{doblez}\cite{minbends} por cada par de aristas consecutivas en
     \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
       \graph {a -- b -- c};
     \end{tikzpicture}
-    \caption{No hay doblez entre $a$ y $c$}
+    \caption{No hay doblez entre $a$ y $c$.}
   \end{subfigure}
   \begin{subfigure}{0.4\textwidth}
     \begin{tikzpicture} [every node/.style={circle, draw, fill=blue!20}]
       \graph {a -- b -- c[x=-1, y=1]};
     \end{tikzpicture}
-    \caption{S\'i hay doblez entre $a$ y $c$}
+    \caption{S\'i hay doblez entre $a$ y $c$.}
   \end{subfigure}
-  \caption{Doblez}
+  \caption{Doblez.}
 \end{figure}
 
 \begin{definition}[Modelo en l\'inea recta]
@@ -487,7 +490,7 @@ Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta d
       \graph {
         a -- {
           b -- {
-            c -- {d,e}
+            c -- {d, e}
           },
           f,
           g -- {
@@ -500,7 +503,7 @@ Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta d
         }
       };
     \end{tikzpicture}
-    \caption{El \'arbol}
+    \caption{El \'arbol.}
   \end{subfigure}
   \begin{subfigure}{0.4\textwidth}
     \begin{equation*}
@@ -512,7 +515,7 @@ Un \textbf{modelo local en l\'inea recta}\cite{paper} de un \'arbol $T$ consta d
     \end{equation*}
     \caption{Ordenamientos locales.}
   \end{subfigure}
-  \caption{Un sl-modelo}
+  \caption{Un sl-modelo.}
 \end{figure}
 
 \section{Notaci\'on asint\'otica}
@@ -523,7 +526,6 @@ En algoritmos, al analizar tamaños de entrada suficientemente grandes como para
 
 \begin{definition}[Notaci\'on $\mathcal{O}$]
 Cuando solamente tenemos el \textbf{l\'imite asint\'otico superior}, utilizamos notaci\'on de $\mathcal{O}$. Dada una funci\'on $g(n)$, denotamos $\mathcal{O}(g(n))$ (pronunciada ``o grande de g de n'' o, algunas veces, solo ``o de g de n'') al conjunto de funciones
-\end{definition}
 
 \begin{equation*}
 \begin{split}
@@ -531,19 +533,20 @@ Cuando solamente tenemos el \textbf{l\'imite asint\'otico superior}, utilizamos 
 \text{ tal que } 0 \leq f(n) \leq cg(n) \text{ para toda } n \geq n_0\}
 \end{split}
 \end{equation*}
+\end{definition}
 
 Usamos la notaci\'on $\mathcal{O}$ para dar una cota superior de una funci\'on, dentro de un factor constante.
 
 \begin{definition}[Notaci\'on $\Omega$]
 
 As\'i como la notaci\'on de $\mathcal{O}$ nos provee de un l\'imite asint\'otico \textit{por arriba} o \textit{superior}, $\Omega$ nos indica el \textbf{l\'imite asint\'otico inferior}. Dada una funci\'on $g(n)$, denotamos $\Omega(g(n))$ (pronunciada ``omega grande de g de n'' o, algunas veces, solo ``omega de g de n'') al conjunto de funciones
-\end{definition}
 
 \begin{equation*}
 \begin{split}
 \Omega(g(n)) = \{f(n): \text{ existen dos constantes positivas } c \text{ y } n_0 \\ \text{ tal que } 0 \leq cg(n) \leq f(n) \text{ para toda } n \geq n_0\}
 \end{split}
 \end{equation*}
+\end{definition}
 
 \begin{definition}[Notaci\'on $\Theta$]
 

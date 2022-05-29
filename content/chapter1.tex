@@ -11,7 +11,7 @@
 
 El siguiente desarrollo fue tomado de \citetitle{paper}\cite{paper}
 
-El propósito final de este escrito es mostar el algortimo que, dado un árbol $T$, encuentra un encajamiento en la malla que minimiza el número máximo de veces que cualquier camino en $T$, se dobla. Hay bastante que desempacar de ese enunciado pero tener el propósito último resumido en una oración nos será útil para mantenernos enfocados.
+El propósito final de este escrito es mostar un algortimo que, dado un árbol $T$, encuentra un encajamiento en la malla que minimiza el número máximo de veces que cualquier camino en $T$ se dobla. Hay bastante que desempacar de ese enunciado pero tener el propósito último resumido en una oración nos será útil para mantenernos enfocados.
 
 \begin{figure}
     \begin{subfigure}{0.4\textwidth}
@@ -52,18 +52,18 @@ El propósito final de este escrito es mostar el algortimo que, dado un árbol $
     \caption{Mismo árbol, diferentes dobleces.}
 \end{figure}
 
-El primer concepto que abarcaremos es el \textit{modelo local en linea recta} (\ref{def:slmodel}). Dentro de la definición de modelo local en linea recta se incluye el de ordenamientos locales, este concepto esta relacionado, pero no es igual, al de \textit{sistemas de rotaci\'on}, ya que este \'ultimo codifica solamente el orden en el que las aristas aparecen alrededor de un v\'ertice $v$. La implementación de ordenamientos locales que elegiremos será como sigue, segun el grado del nodo:
+Dentro de la definición de \textit{modelo local en línea recta} (\ref{def:slmodel}) se incluye la de ordenamientos locales, este último está relacionado, pero no es igual, al de \textit{sistemas de rotaci\'on}, ya que los sistemas codifican solamente el orden en el que las aristas aparecen alrededor de un v\'ertice. La representación de ordenamientos locales que elegiremos será como sigue, segun el grado $d$ del nodo:
 
 \begin{itemize}
-    \item Con grado uno, dado que no importa la rotación, usaremos 0, dado que hay cero grados entre una arista y sí misma. Por ejemplo: $\{0_u\}_v$, para denotar que la arista incidente a $v$ que viene del nodo $u$ es la única.
-    \item Con grado dos, utilizaremos el ángulo de separación y el nombre de los dos vértices, será interpretado en sentido horario. Por ejemplo: $\{\pi_{wu}\}_v$, significa que los tres vértices yacen sobre la misma linea.
-    \item Para el grado tres un ejemplo es: $\{\pi_{uw}, \frac{\pi}{2}_{uv'}\}_v$ debido a que la separación entre tres aristas puede ser descrita con sólo dos ángulos.
-    \item En el caso de los vértices con grado cuatro, podremos usar la siguiente especificación: $\{\pi_{uw}, \pi_{u'w'}\}_v, ya que, desde el punto de vista de u, por ejemplo, viendo hacia v, no importa si u' está a su mano izquierda o a su mano derecha, en ambos caso no agrega ni quita dobleces.
+    \item $d(v) = 1$: para las hojas, como no importa la rotación, usaremos $0$ (hay cero grados entre una arista y sí misma) para denotar que la arista incidente a $v$ que viene del nodo $u$ es la única. Por ejemplo: $\{0_u\}_v$.
+    \item $d(v) = 2$: utilizaremos el ángulo de separación y el nombre de los dos vértices, el orden de los nombres será interpretado en sentido horario. Por ejemplo: $\{\pi_{wu}\}_v$, significa que los tres vértices yacen sobre la misma linea y, $\{\frac{\pi}{2}_{wu}\}_v$, significa que $w$ podría estar ``a las doce'' y $u$ estaría ``a las tres'', pero no al revés.
+    \item $d(v) = 3$: debido a que la separación entre tres aristas puede ser descrita con sólo dos ángulos, un ejemplo puede ser: $\{\pi_{uw}, \frac{\pi}{2}_{uv'}\}_v$.
+    \item $d(v) = 4$: podremos usar la siguiente especificación: $\{\pi_{uw}, \pi_{u'w'}\}_v$, ya que, desde el punto de vista de $u$, por ejemplo, viendo hacia $v$, no importa si $u'$ está a su mano izquierda o a su mano derecha, en ambos caso no agrega ni quita dobleces.
 \end{itemize}
 
-Lo que esta notación implica es que el orden y los ángulos entre aristas son igualmente importantes, nos servirán para evitar ambigüedad en el renderizado y también para no introducir dobleces innecesarios.
+Con esta notación queremos evitar ambigüedad en el renderizado para prevenir la introducci\'on de dobleces innecesarios.
 
-Basado en el hecho de que un vertice puede tener distintos ordenamientos locales para el mismo conjunto de aristas adyacentes, podemos observar que entonces un mismo árbol puede tener distintos ordenamientos locales y, por tanto, múltiples \textit{sl-modelos}. El conjunto de todos los sl-modelos de un árbol $T$ será denotado por $\mathcal{SM}(T)$. Dado que los \textit{s-modelos} son la representación gráfica de un árbol en el plano, cada uno tiene asociado un sl-modelo que es la descripción de ésa representación. Diremos que el s-modelo es la renderización del sl-modelo.
+Basándonos en el hecho de que un vértice puede tener distintos ordenamientos locales para el mismo conjunto de aristas adyacentes, podemos observar que entonces un mismo árbol puede tener distintos ordenamientos locales y, por tanto, múltiples \textit{sl-modelos}. El conjunto de todos los sl-modelos de un árbol $T$ será denotado por $\mathcal{SM}(T)$. Dado que los \textit{s-modelos} son la representación gráfica de un árbol en el plano, cada uno tiene asociado un sl-modelo que es la descripción de ésa representación. Diremos que el s-modelo es la renderización del sl-modelo.
 
 \begin{figure}
     \begin{subfigure}{0.4\textwidth}
@@ -106,7 +106,7 @@ Basado en el hecho de que un vertice puede tener distintos ordenamientos locales
     \caption{Observemos que algunos de los árboles en (a) han sido rotado para alinearse de manera correcta en (b). En general no es cierto que todas las aristas en el renderizado de un sl-modelo necesiten ser de la misma longitud.}
 \end{figure}
 
-Denotaremos como $V$ al conjunto de nodos y $E$ al conjunto de aristas de un árbol $T$
+A partir de nos referiremos con $V$ al conjunto de nodos y con $E$ al conjunto de aristas de un árbol $T$.
 
 \newpage
 
